@@ -4,6 +4,7 @@
 ## See also
 ## https://github.com/jobroe/cmake-arm-embedded/blob/master/toolchain-arm-none-eabi.cmake
 ## https://raw.githubusercontent.com/wuxx/CH32V003-makefile-example/master/Makefile
+## https://github.com/AlexanderMandera/arduino-wch32v003/blob/master/platform.txt
 ##
 
 # Append current directory to CMAKE_MODULE_PATH for making device specific cmake modules visible
@@ -60,11 +61,13 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 #
 # https://gcc.gnu.org/onlinedocs/gcc-6.1.0/gcc/ARM-Options.html
 # I build for Cortex-M0, so I use -mtune=cortex-m0 -mcpu=cortex-m0
-set(OBJECT_GEN_FLAGS "-march=rv32ec -mabi=ilp32e -msmall-data-limit=8 -mno-save-restore -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -Wunused -Wuninitialized")
+# https://blog.csdn.net/u011011827/article/details/124197544
+# needs _zicsr or specify misa spec
+set(OBJECT_GEN_FLAGS "-march=rv32ec -misa-spec=2.2 -mabi=ilp32e -msmall-data-limit=8 -mno-save-restore -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -Wunused -Wuninitialized")
 
 set(CMAKE_C_FLAGS   "${OBJECT_GEN_FLAGS}" CACHE INTERNAL "C Compiler options")
 set(CMAKE_CXX_FLAGS "${OBJECT_GEN_FLAGS} -MMD -MP" CACHE INTERNAL "C++ Compiler options")
-set(CMAKE_ASM_FLAGS "${OBJECT_GEN_FLAGS} -x assembler -MMD -MP" CACHE INTERNAL "ASM Compiler options")
+set(CMAKE_ASM_FLAGS "${OBJECT_GEN_FLAGS} -x assembler-with-cpp -MMD -MP" CACHE INTERNAL "ASM Compiler options")
 
 
 # -Wl,--gc-sections     Perform the dead code elimination.
@@ -78,7 +81,7 @@ set(CMAKE_ASM_FLAGS "${OBJECT_GEN_FLAGS} -x assembler -MMD -MP" CACHE INTERNAL "
 #
 # linker script is set here
 # to link symbols (--just-symbols) you just need to append the symbols file to linker
-set(CMAKE_EXE_LINKER_FLAGS "-T ./vendor/Ld/Link.ld -nostartfiles -Xlinker --gc-sections -Wl, -Map=\"${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.map\"" CACHE INTERNAL "Linker options")
+set(CMAKE_EXE_LINKER_FLAGS "-T ${CMAKE_CURRENT_SOURCE_DIR}/vendor/Ld/Link.ld -nostartfiles -Xlinker --gc-sections -Wl,-Map,\"${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.map\" --specs=nano.specs --specs=nosys.specs" CACHE INTERNAL "Linker options")
 
 #---------------------------------------------------------------------------------------
 # Set debug/release build configuration Options
