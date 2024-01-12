@@ -63,10 +63,10 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 # I build for Cortex-M0, so I use -mtune=cortex-m0 -mcpu=cortex-m0
 # https://blog.csdn.net/u011011827/article/details/124197544
 # needs _zicsr or specify misa spec
-set(OBJECT_GEN_FLAGS "-march=rv32ec -misa-spec=2.2 -mabi=ilp32e -msmall-data-limit=8 -mno-save-restore -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -Wunused -Wuninitialized")
+set(OBJECT_GEN_FLAGS "-march=rv32ec -misa-spec=2.2 -mabi=ilp32e -msmall-data-limit=8 -mno-save-restore -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -Wunused -Wuninitialized ")
 
 set(CMAKE_C_FLAGS   "${OBJECT_GEN_FLAGS}" CACHE INTERNAL "C Compiler options")
-set(CMAKE_CXX_FLAGS "${OBJECT_GEN_FLAGS} -MMD -MP" CACHE INTERNAL "C++ Compiler options")
+set(CMAKE_CXX_FLAGS "${OBJECT_GEN_FLAGS} -MMD -MP -fno-use-cxa-atexit -fno-threadsafe-statics -fno-rtti -fno-exceptions" CACHE INTERNAL "C++ Compiler options")
 set(CMAKE_ASM_FLAGS "${OBJECT_GEN_FLAGS} -x assembler-with-cpp -MMD -MP" CACHE INTERNAL "ASM Compiler options")
 
 
@@ -81,7 +81,7 @@ set(CMAKE_ASM_FLAGS "${OBJECT_GEN_FLAGS} -x assembler-with-cpp -MMD -MP" CACHE I
 #
 # linker script is set here
 # to link symbols (--just-symbols) you just need to append the symbols file to linker
-set(CMAKE_EXE_LINKER_FLAGS "-T ${CMAKE_CURRENT_SOURCE_DIR}/vendor/Ld/Link.ld -nostartfiles -Xlinker --gc-sections -Wl,-Map,\"${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.map\" --specs=nano.specs --specs=nosys.specs" CACHE INTERNAL "Linker options")
+set(CMAKE_EXE_LINKER_FLAGS "-nostartfiles -Xlinker --gc-sections -Wl,-Map,\"${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.map\" --specs=nano.specs --specs=nosys.specs" CACHE INTERNAL "Linker options")
 
 #---------------------------------------------------------------------------------------
 # Set debug/release build configuration Options
@@ -98,8 +98,8 @@ set(CMAKE_EXE_LINKER_FLAGS_DEBUG "" CACHE INTERNAL "Linker options for debug bui
 # Options for RELEASE build
 # -Os   Optimize for size. -Os enables all -O2 optimizations.
 # -flto Runs the standard link-time optimizer.
-set(CMAKE_C_FLAGS_RELEASE "-Os -flto" CACHE INTERNAL "C Compiler options for release build type")
-set(CMAKE_CXX_FLAGS_RELEASE "-Os -flto" CACHE INTERNAL "C++ Compiler options for release build type")
+set(CMAKE_C_FLAGS_RELEASE "-Os -g -flto" CACHE INTERNAL "C Compiler options for release build type")
+set(CMAKE_CXX_FLAGS_RELEASE "-Os -g -flto" CACHE INTERNAL "C++ Compiler options for release build type")
 set(CMAKE_ASM_FLAGS_RELEASE "" CACHE INTERNAL "ASM Compiler options for release build type")
 set(CMAKE_EXE_LINKER_FLAGS_RELEASE "-flto" CACHE INTERNAL "Linker options for release build type")
 
