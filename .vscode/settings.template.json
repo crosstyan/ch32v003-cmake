@@ -1,0 +1,12 @@
+{
+  "cmake.configureArgs": [
+    "-DTOOLCHAIN_PREFIX=/opt/xpack-riscv-none-elf-gcc-12.2.0-3",
+    "-GNinja",
+    "-DCMAKE_BUILD_TYPE=Release",
+  ],
+  "clangd.arguments": [
+    "--background-index",
+    "--query-driver=/opt/xpack-riscv-none-elf-gcc-12.2.0-3/bin/riscv-none-elf-g++",
+    "--compile-commands-dir=build",
+  ]
+}
