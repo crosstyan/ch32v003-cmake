@@ -2,13 +2,15 @@
 #define SIMPLE_FUNCONFIG_H
 
 #define CH32V003 1
-// #define FUNCONF_SYSTEM_CORE_CLOCK 48000000
-#define FUNCONF_SYSTEM_CORE_CLOCK 24000000
+#define FUNCONF_SYSTEM_CORE_CLOCK 48000000
+// #define FUNCONF_SYSTEM_CORE_CLOCK 24000000
+
 // TINYVECTOR now saves like another 120 bytes of space.
 // #define FUNCONF_TINYVECTOR       1
 // #define FUNCONF_SYSTICK_USE_HCLK 1
 // I don't use virtual functions and fancy inheritance
 // so the macro is not needed.
+
 // #define CPLUSPLUS                 1
 #define FUNCONF_USE_HSE 0 // external crystal on PA1 PA2
 #define FUNCONF_USE_HSI 1 // internal 24MHz clock oscillator
