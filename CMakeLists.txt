@@ -25,10 +25,7 @@ set_target_properties(${CMAKE_PROJECT_NAME}.elf PROPERTIES
 
 add_subdirectory(lib)
 
-target_link_libraries(${CMAKE_PROJECT_NAME}.elf
-        PRIVATE
-        fun
-        etl::etl)
+target_link_libraries(${CMAKE_PROJECT_NAME}.elf fun)
 
 add_compile_definitions(
         SYSTICK_USE_HCLK=1
